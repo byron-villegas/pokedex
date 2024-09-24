@@ -1,0 +1,314 @@
+@media (prefers-color-scheme: dark) {
+    .dark-mode {
+      color: #eee;
+      background: #121212;
+    }
+
+    .dark-mode .album {
+        background-color: black !important;
+    }
+
+    .dark-mode .card {
+        background-color: #212529!important;
+    }
+
+    .dark-mode .text-muted {
+        color: #d6d6d6 !important;
+    }
+    
+    .dark-mode .modal {
+        --bs-modal-bg: #1a1a1a !important;
+    }
+
+    .dark-mode .alert {
+        padding: 0%;
+        margin-right: 1px;
+        color: #eee!important;
+        background-color: #212529!important;
+        border-color: #d3d6d8;
+    }
+    
+    .dark-mode .text-primary {
+        color: #eee!important;
+    }
+}
+
+.yellow {
+    color:#ffd900
+}
+
+.red {
+    color: #ff0000;
+}
+
+.move {
+    width: 64px !important;
+    height: 28px !important;
+}
+
+.type {
+    color: #FFF!important;
+    text-decoration: none;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -moz-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 26px;
+    color: #FFF;
+    text-shadow: 1px 1px 1px #333;
+    width: 60px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-bottom: 2px;
+    cursor: pointer;
+}
+
+.type:hover {
+    opacity: .7;
+    text-decoration: none;
+}
+
+.type.bug {
+    background: -webkit-gradient(linear,left top,left bottom,from(#a8b820),to(#8d9a1b));
+    background: -webkit-linear-gradient(#a8b820,#8d9a1b);
+    background: -moz-linear-gradient(#a8b820,#8d9a1b);
+    background: -o-linear-gradient(#a8b820,#8d9a1b);
+    background: linear-gradient(#a8b820,#8d9a1b);
+    border-color: #616B13;
+}
+
+.type.dark {
+    background: -webkit-gradient(linear,left top,left bottom,from(#705848),to(#513f34));
+    background: -webkit-linear-gradient(#705848,#513f34);
+    background: -moz-linear-gradient(#705848,#513f34);
+    background: -o-linear-gradient(#705848,#513f34);
+    background: linear-gradient(#705848,#513f34);
+    border-color: #362A23;
+}
+
+.type.dragon {
+    background: -webkit-gradient(linear,left top,left bottom,from(#7038f8),to(#4c08ef));
+    background: -webkit-linear-gradient(#7038f8,#4c08ef);
+    background: -moz-linear-gradient(#7038f8,#4c08ef);
+    background: -o-linear-gradient(#7038f8,#4c08ef);
+    background: linear-gradient(#7038f8,#4c08ef);
+    border-color: #3D07C0;
+}
+
+.type.electric {
+    background: -webkit-gradient(linear,left top,left bottom,from(#f8d030),to(#f0c108));
+    background: -webkit-linear-gradient(#f8d030,#f0c108);
+    background: -moz-linear-gradient(#f8d030,#f0c108);
+    background: -o-linear-gradient(#f8d030,#f0c108);
+    background: linear-gradient(#f8d030,#f0c108);
+    border-color: #C19B07;
+}
+
+.type.fairy {
+    background: -webkit-gradient(linear,left top,left bottom,from(#F98CFF),to(#F540FF));
+    background: -webkit-linear-gradient(#F98CFF,#F540FF);
+    background: -moz-linear-gradient(#F98CFF,#F540FF);
+    background: -o-linear-gradient(#F98CFF,#F540FF);
+    background: linear-gradient(#F98CFF,#F540FF);
+    border-color: #C1079B;
+}
+
+.type.fighting {
+    background: -webkit-gradient(linear,left top,left bottom,from(#c03028),to(#9d2721));
+    background: -webkit-linear-gradient(#c03028,#9d2721);
+    background: -moz-linear-gradient(#c03028,#9d2721);
+    background: -o-linear-gradient(#c03028,#9d2721);
+    background: linear-gradient(#c03028,#9d2721);
+    border-color: #82211B;
+}
+
+.type.fire {
+    background: -webkit-gradient(linear,left top,left bottom,from(#f08030),to(#dd6610));
+    background: -webkit-linear-gradient(#f08030,#dd6610);
+    background: -moz-linear-gradient(#f08030,#dd6610);
+    background: -o-linear-gradient(#f08030,#dd6610);
+    background: linear-gradient(#f08030,#dd6610);
+    border-color: #B4530D;
+}
+
+.type.flying {
+    background: -webkit-gradient(linear,left top,left bottom,from(#a890f0),to(#9180c4));
+    background: -webkit-linear-gradient(#a890f0,#9180c4);
+    background: -moz-linear-gradient(#a890f0,#9180c4);
+    background: -o-linear-gradient(#a890f0,#9180c4);
+    background: linear-gradient(#a890f0,#9180c4);
+    border-color: #7762B6;
+}
+
+.type.ghost {
+    background: -webkit-gradient(linear,left top,left bottom,from(#705898),to(#554374));
+    background: -webkit-linear-gradient(#705898,#554374);
+    background: -moz-linear-gradient(#705898,#554374);
+    background: -o-linear-gradient(#705898,#554374);
+    background: linear-gradient(#705898,#554374);
+    border-color: #413359;
+}
+
+.type.grass {
+    background: -webkit-gradient(linear,left top,left bottom,from(#78c850),to(#5ca935));
+    background: -webkit-linear-gradient(#78c850,#5ca935);
+    background: -moz-linear-gradient(#78c850,#5ca935);
+    background: -o-linear-gradient(#78c850,#5ca935);
+    background: linear-gradient(#78c850,#5ca935);
+    border-color: #4A892B;
+}
+
+.type.ground {
+    background: -webkit-gradient(linear,left top,left bottom,from(#e0c068),to(#d4a82f));
+    background: -webkit-linear-gradient(#e0c068,#d4a82f);
+    background: -moz-linear-gradient(#e0c068,#d4a82f);
+    background: -o-linear-gradient(#e0c068,#d4a82f);
+    background: linear-gradient(#e0c068,#d4a82f);
+    border-color: #AA8623;
+}
+
+.type.ice {
+    background: -webkit-gradient(linear,left top,left bottom,from(#98d8d8),to(#69c6c6));
+    background: -webkit-linear-gradient(#98d8d8,#69c6c6);
+    background: -moz-linear-gradient(#98d8d8,#69c6c6);
+    background: -o-linear-gradient(#98d8d8,#69c6c6);
+    background: linear-gradient(#98d8d8,#69c6c6);
+    border-color: #45B6B6;
+}
+
+.type.normal {
+    background: -webkit-gradient(linear,left top,left bottom,from(#a8a878),to(#8a8a59));
+    background: -webkit-linear-gradient(#a8a878,#8a8a59);
+    background: -moz-linear-gradient(#a8a878,#8a8a59);
+    background: -o-linear-gradient(#a8a878,#8a8a59);
+    background: linear-gradient(#a8a878,#8a8a59);
+    border-color: #79794E;
+}
+
+.type.poison {
+    background: -webkit-gradient(linear,left top,left bottom,from(#a040a0),to(#803380));
+    background: -webkit-linear-gradient(#a040a0,#803380);
+    background: -moz-linear-gradient(#a040a0,#803380);
+    background: -o-linear-gradient(#a040a0,#803380);
+    background: linear-gradient(#a040a0,#803380);
+    border-color: #662966;
+}
+
+.type.psychic {
+    background: -webkit-gradient(linear,left top,left bottom,from(#f85888),to(#f61c5d));
+    background: -webkit-linear-gradient(#f85888,#f61c5d);
+    background: -moz-linear-gradient(#f85888,#f61c5d);
+    background: -o-linear-gradient(#f85888,#f61c5d);
+    background: linear-gradient(#f85888,#f61c5d);
+    border-color: #D60945;
+}
+
+.type.rock {
+    background: -webkit-gradient(linear,left top,left bottom,from(#b8a038),to(#93802d));
+    background: -webkit-linear-gradient(#b8a038,#93802d);
+    background: -moz-linear-gradient(#b8a038,#93802d);
+    background: -o-linear-gradient(#b8a038,#93802d);
+    background: linear-gradient(#b8a038,#93802d);
+    border-color: #746523;
+}
+
+.type.steel {
+    background: -webkit-gradient(linear,left top,left bottom,from(#b8b8d0),to(#9797ba));
+    background: -webkit-linear-gradient(#b8b8d0,#9797ba);
+    background: -moz-linear-gradient(#b8b8d0,#9797ba);
+    background: -o-linear-gradient(#b8b8d0,#9797ba);
+    background: linear-gradient(#b8b8d0,#9797ba);
+    border-color: #7A7AA7;
+}
+
+.type.water {
+    background: -webkit-gradient(linear,left top,left bottom,from(#6890f0),to(#386ceb));
+    background: -webkit-linear-gradient(#6890f0,#386ceb);
+    background: -moz-linear-gradient(#6890f0,#386ceb);
+    background: -o-linear-gradient(#6890f0,#386ceb);
+    background: linear-gradient(#6890f0,#386ceb);
+    border-color: #1753E3;
+}
+
+.type.unknown {
+    background: -webkit-gradient(linear,left top,left bottom,from(#6c9e90),to(#68A090));
+    background: -webkit-linear-gradient(#6c9e90,#68A090);
+    background: -moz-linear-gradient(#6c9e90,#68A090);
+    background: -o-linear-gradient(#6c9e90,#68A090);
+    background: linear-gradient(#6c9e90,#68A090);
+    border-color:#44685E;
+}
+
+.type.shadow {
+    background: -webkit-gradient(linear,left top,left bottom,from(#222222),to(#181717));
+    background: -webkit-linear-gradient(#222222,#181717);
+    background: -moz-linear-gradient(#222222,#181717);
+    background: -o-linear-gradient(#222222,#181717);
+    background: linear-gradient(#222222,#181717);
+    border-color:#0f0f0f;
+}
+
+.table-status {
+    border-collapse: collapse !important;
+    border-spacing: 0 !important;
+    display: table;
+    border-collapse: separate;
+    box-sizing: border-box;
+    text-indent: initial;
+    border-spacing: 2px;
+    border-color: gray;
+}
+
+.pokemon-stats-bar {
+    height: 12px;
+    -webkit-box-shadow: inset 1px 4px 0 rgba(255,255,255,.4),inset -1px -1px 0 rgba(0,0,0,.3);
+    -moz-box-shadow: inset 1px 4px 0 rgba(255,255,255,.4),inset -1px -1px 0 rgba(0,0,0,.3);
+    box-shadow: inset 1px 4px 0 rgba(255,255,255,.4),inset -1px -1px 0 rgba(0,0,0,.3);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 10px;
+    -webkit-animation-name: PokemonStatBar-anim;
+    -moz-animation-name: PokemonStatBar-anim;
+    -o-animation-name: PokemonStatBar-anim;
+    animation-name: PokemonStatBar-anim;
+    -webkit-animation-duration: .7s;
+    -moz-animation-duration: .7s;
+    -o-animation-duration: .7s;
+    animation-duration: .7s;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-fill-mode: forwards;
+    -o-animation-fill-mode: forwards;
+    animation-fill-mode: forwards;
+    -webkit-animation-timing-function: ease-in-out;
+    -moz-animation-timing-function: ease-in-out;
+    -o-animation-timing-function: ease-in-out;
+    animation-timing-function: ease-in-out;
+}
+
+.pokemon-stats-bar.bad {
+    width: 50%;
+    background-color: #ff0000;
+}
+
+.pokemon-stats-bar.semi-good {
+    width: 70%;
+    background-color: #e6ff00;
+}
+
+.pokemon-stats-bar.good {
+    width: 80%;
+    background-color: #02ff3b;
+}
+
+.pokemon-stats-bar.excelent {
+    width: 97%;
+    background-color: #02ffe5;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}

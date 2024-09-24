@@ -1,0 +1,66 @@
+image: node:16.17.0 # Imagen base
+
+stages: # Lista de etapas
+  - build
+  - test
+  - deploy
+  - deployment-tests
+
+build: # Nombre del trabajo
+  stage: build # Etapa a la cual pertenece
+  script: # Ejecutar scripts, comandos, etc
+    - npm install # Instalar las depedencias de node
+    - npm run build --prod # Build de la aplicacion
+  artifacts: # Artefactos que deseamos generar para el trabajo
+    paths: # Rutas
+      - dist/ # Carpeta build
+
+cache: # Guardar cosas en cache
+  paths: # Rutas
+    - node_modules/ # Carpeta node_modules
+    - dist/ # Carpeta build
+
+unit-test: # Nombre del trabajo
+  stage: test # Etapa a la cual pertenece
+  coverage: '/Statements\s*: (\d+.\d+|\d+\d+)/' # Obtiene el porcentaje de cobertura
+  script: # Ejecutar scripts, comandos, etc
+    - apt-get update; apt-get clean
+    - apt-get install -y x11vnc
+    - apt-get install -y xvfb
+    - apt-get install -y fluxbox
+    - apt-get install -y wget
+    - apt-get install -y wmctrl
+    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - 
+    - sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+    - apt-get update && apt-get -y install google-chrome-stable # Instala google chorme
+    - export CHROME_BIN=/usr/bin/google-chrome # Setea la variable de google chrome
+    - npm test # Corre los test unitarios con karma y jasmin
+  artifacts: # Artefactos que deseamos generar para el trabajo
+    paths: # Rutas
+      - coverage/ # Carpeta coverage que contiene el reporte de cobertura del codigo
+
+render-deploy: # Nombre del trabajo
+  stage: deploy # Etapa a la cual pertenece
+  script:
+    - curl -X POST $RENDER_DEPLOY_HOOK > deploy.json # Despliegue en render
+    - sleep 150 # Se espera por 2 minutos 30 segundos
+  artifacts: # Artefactos que deseamos generar para el trabajo
+    paths: # Rutas
+      - deploy.json # Reporte de resultado de los test de aceptacion de cucumber
+
+cypress-test: # Nombre del trabajo
+  stage: deployment-tests # Etapa a la cual pertenece
+  script: # Ejecutar scripts, comandos, etc
+    - apt-get update; apt-get clean
+    - apt-get install -y libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+    - rm -rf node_modules # Elimino la carpeta node modules para instalarla de manera limpia
+    - npm install # Instalar las depedencias de node
+    - export CYPRESS_BASE_URL="https://pokedex-5999.onrender.com/pokedex/#/" # Se cambia la url base a la oficial desplegada
+    - npm run cypress:run # Corre los test de cypress
+    - npx mochawesome-merge "cypress/results/*.json" > mochawesome.json # Combina todos los resultados .json
+    - npx marge mochawesome.json # Genera la carpeta mochawesome-report con el reporte html
+  artifacts: # Artefactos que deseamos generar para el trabajo
+    paths: # Rutas
+      - cypress/videos # Carpeta videos que contiene videos de las pruebas de cypress
+      - cypress/screenshots # Carpeta de capturas de pantalla que contiene las capturas de las pruebas
+      - mochawesome-report/ # Carpeta con el reporte de todos los tests ejecutados

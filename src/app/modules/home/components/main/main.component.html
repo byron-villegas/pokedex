@@ -1,0 +1,151 @@
+<main>
+  <div class="album py-5 bg-light">
+    <div class="container">
+      <div class="row justify-content-end mb-3">
+        <div class="col d-flex justify-content-end align-items-center">
+          <input class="form-control me-2" type="search" id="pokemonSearch" placeholder="Búsqueda de pokemones" (keyup)="onSearchPokemon($event)" specialCharacters aria-label="Búsqueda de pokemones">
+          <i [ngClass]="'fa fa-2x ms-1 cursor-pointer ' + (shinyActivated ? 'fa-star yellow' : 'fa-star-o')" id="shiny" (click)="activateOrDesactivateShiny()" aria-hidden="true" title="{{ shinyActivated ? 'Shiny Off' : 'Shiny On'  }}"></i>
+          <i [ngClass]="'fa fa-2x ms-1 cursor-pointer ' + (darkThemeActivated ? 'fa-moon-o' : 'fa-sun-o')" id="darkTheme" (click)="activateOrDesactivateDarkTheme()" aria-hidden="true" title="{{ darkThemeActivated ? 'Dark Theme Off' : 'Dark Theme On'  }}"></i>
+        </div>
+      </div>
+      <div class="row justify-content-end mb-3">
+        <div class="col d-flex justify-content-end align-items-center">
+          <select class="form-select col" id="ordenarPokemon" (change)="onOrderPokemon($event)" aria-label="Ordenar">
+            <option value="reset">Restablecer</option>
+            <option value="1">Ordenar Menor a Mayor</option>
+            <option value="2">Ordenar Mayor a Menor</option>
+            <option value="3">Ordenar A - Z</option>
+            <option value="4">Ordenar Z - A</option>
+            <option value="5">Ordenar por Favoritos</option>
+          </select>
+          <select class="form-select col" id="ordenarPokemonPorTipo" (change)="onOrderPokemonByType($event)" aria-label="Ordenar por Tipo">
+            <option value="reset">Restablecer</option>
+            <option *ngFor="let type of types" value="{{type.name}}">{{type.name | titlecase}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3" id="pokemons">
+        <div class="col mb-3" id="{{ 'pokemon-'+ pokemon.name }}" *ngFor="let pokemon of pokemons">
+          <div class="card shadow-sm">
+              <img class="bd-placeholder-img card-img-top cursor-pointer" role="img" id="{{'avatar-' + pokemon.name}}" showPokemonSpriteMove [pokemon]=pokemon src="{{shinyActivated ? pokemon.sprites.front_shiny : pokemon.sprites.front_default }}" alt="{{ pokemon.name | titlecase }}" title="{{pokemon.name | titlecase }}" (click)="showPokemon(pokemon.name)" data-bs-toggle="modal" data-bs-target="#selectedPokemonModal" />
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="card-text">{{pokemon.name | titlecase}}</p>
+                <i [ngClass]="'fa fa-star cursor-pointer ' + (pokemon.is_favorite ? 'red': '')" aria-hidden="true" id="{{'favorite-' + pokemon.name}}" title="{{ pokemon.is_favorite ? 'Quitar de favoritos': 'Añadir a favoritos'}}" (click)="addOrRemoveFavorite(pokemon)"></i>
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="btn-group">
+                  <div class="row" *ngIf="pokemon.types[0]">
+                    <span *ngFor="let pokemonType of pokemon.types" class="col-auto me-1" [ngClass]="'type ' + pokemonType.type.name.toLowerCase()" title="{{ pokemonType.type.name }}">{{ pokemonType.type.name | titlecase }}</span>
+                  </div>
+                </div>
+                <small class="text-muted">#{{pokemon.id}}</small>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal fade" id="selectedPokemonModal" tabindex="-1" aria-labelledby="selectedPokemonModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" id="selectPokemonContent">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="selectedPokemonModalLabel">{{selectedPokemon?.name | titlecase}}</h1> <small class="text-muted ms-2">#{{selectedPokemon?.id}}</small>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="selectedPokemon" class="row row-cols-sm-3">
+          <div class="col">
+            <img class="bd-placeholder-img card-img-top cursor-pointer" width="100%" height="100%" showPokemonSpriteMove [pokemon]=selectedPokemon src="{{ shinyActivated ? selectedPokemon.sprites.front_shiny : selectedPokemon!.sprites.front_default }}" alt="{{selectedPokemon!.name | titlecase}}" title="{{selectedPokemon!.name | titlecase}}" />
+          </div>
+          <div class="col">
+            <div class="row alert alert-primary d-flex align-items-center">
+              <span><b>Type</b></span>
+            </div>
+            <div class="row">
+              <span *ngFor="let pokemonType of selectedPokemon.types" class="col-auto me-1" [ngClass]="'type ' + pokemonType.type.name.toLowerCase()" title="{{ pokemonType.type.name | titlecase }}">{{ pokemonType.type.name | titlecase }}</span>
+            </div>
+          </div>
+          <div class="col">
+            <div class="row alert alert-primary d-flex align-items-center">
+              <span><b>Abilities</b></span>
+            </div>
+            <div class="col">
+              <span *ngFor="let pokemonAbility of selectedPokemon.abilities" class="row" title="{{ pokemonAbility.ability.name }}">{{ pokemonAbility.ability.name | titlecase }}</span>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="selectedPokemon" class="row mt-1">
+          <div class="col-6">
+            <div class="row alert alert-primary d-flex align-items-center">
+              <span><b>Stats</b></span>
+            </div>
+            <div class="row">
+              <div class="stats" *ngFor="let st of selectedPokemon.stats">
+                <table class="table-status">
+                  <tbody>
+                    <tr>
+                      <th>
+                        {{ st.stat.name | titlecase }}:
+                      </th>
+                      <td>
+                        {{ st.base_stat }}
+                      </td>
+                      <td class="td-width">
+                        <div [ngClass]="'pokemon-stats-bar '+ (st.base_stat <= 60 ? 'bad' : st.base_stat > 60 && st.base_stat <= 90 ? 'semi-good' : st.base_stat > 90 && st.base_stat <= 154 ? 'good' : 'excelent')"></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="row alert alert-primary d-flex align-items-center">
+              <span><b>Moves</b></span>
+            </div>
+            <div class="row" id="moves">
+              <div class="div-move">
+                <span *ngFor="let pokemonMove of selectedPokemon.moves"> <span *ngIf="pokemonMove.type" [ngClass]="'type ' + pokemonMove.type.name.toLowerCase()" title="{{ pokemonMove.type.name | titlecase }}">{{ pokemonMove.type.name | titlecase }}</span> {{ pokemonMove.move!.name | titlecase }} <br/></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="selectedPokemon" class="row mt-1">
+          <div class="col">
+            <div class="row alert alert-primary d-flex align-items-center">
+              <span><b>Evolutions</b></span>
+            </div>
+            <div class="container">
+              <div *ngIf="selectedPokemon.evolution" class="row">
+                <div *ngIf="selectedPokemon.evolution.chain && selectedPokemon.evolution.chain.sprites" class="col">
+                  <span><img src="{{ shinyActivated ? selectedPokemon.evolution.chain.sprites.front_shiny : selectedPokemon.evolution.chain.sprites.front_default }}" alt="{{ selectedPokemon.evolution.chain.species.name | titlecase }}" title="{{ selectedPokemon.evolution.chain.species.name | titlecase }}" (click)="showPokemon(selectedPokemon.evolution.chain.species.name)" class="cursor-pointer"></span>
+                  <span *ngIf="selectedPokemon.evolution.chain.evolves_to[0] && selectedPokemon.evolution.chain.evolves_to[0].sprites" class="fs-5 fw-bold text-primary">></span>
+                </div>
+                <div *ngIf="selectedPokemon.evolution.chain.evolves_to.length == 1 && selectedPokemon.evolution.chain.evolves_to[0] && selectedPokemon.evolution.chain.evolves_to[0].sprites" class="col">
+                  <span><img src="{{ shinyActivated ? selectedPokemon.evolution.chain.evolves_to[0].sprites.front_shiny : selectedPokemon.evolution.chain.evolves_to[0].sprites.front_default }}" alt="{{ selectedPokemon.evolution.chain.evolves_to[0].species.name | titlecase }}" title="{{ selectedPokemon.evolution.chain.evolves_to[0].species.name | titlecase }}" (click)="showPokemon(selectedPokemon.evolution.chain.evolves_to[0].species.name)" class="cursor-pointer"></span>
+                  <span *ngIf="selectedPokemon.evolution.chain.evolves_to[0] && selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0] && selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0].sprites" class="fs-5 fw-bold text-primary">></span>
+                </div>
+                <div *ngIf="selectedPokemon.evolution.chain.evolves_to.length == 1 && selectedPokemon.evolution.chain.evolves_to[0] && selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0] && selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0].sprites" class="col">
+                  <span><img src="{{ shinyActivated ? selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0].sprites.front_shiny : selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0].sprites.front_default }}" alt="{{ selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0].species.name | titlecase }}" title="{{ selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0].species.name | titlecase }}" (click)="showPokemon(selectedPokemon.evolution.chain.evolves_to[0].evolves_to[0].species.name)" class="cursor-pointer"></span>
+                </div>
+              </div>
+              <div *ngIf="selectedPokemon.evolution && selectedPokemon.evolution.chain.evolves_to.length > 1" class="row">
+                <div *ngFor="let pokemonChain of selectedPokemon.evolution.chain.evolves_to; let i = index" class="col">
+                  <span><img src="{{ shinyActivated ? pokemonChain.sprites.front_shiny : pokemonChain.sprites.front_default }}" alt="{{ pokemonChain.species.name | titlecase }}" title="{{ pokemonChain.species.name | titlecase }}" (click)="showPokemon(pokemonChain.species.name)" class="cursor-pointer"></span>
+                  <span *ngIf="selectedPokemon.evolution.chain.evolves_to[i + 1] && selectedPokemon.evolution.chain.evolves_to[i + 1].sprites" class="fs-5 fw-bold text-primary">></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="generatePdf()" id="generatePdf">Generar Pdf</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
