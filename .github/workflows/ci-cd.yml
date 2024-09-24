@@ -48,6 +48,8 @@ jobs:
         run: npm install
       - name: Run Cypress Tests
         run: npm run cypress:run
+        env:
+          CYPRESS_BASE_URL: https://pokedex-5999.onrender.com/pokedex/#/
       - name: Combine Tests Result On Mochawesome Json
         run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
       - name: Generate Mochawesome Folder Report
