@@ -19,6 +19,40 @@ jobs:
         with:
           name: dist
           path: dist/
+  unit-test:
+    runs-on: ubuntu-latest
+    container:
+      image: node:16.17.0
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Node Modules
+        run: npm install
+      - name: Apt Update And Clean
+        run: apt-get update; apt-get clean
+      - name: Install x11vnc
+        run: apt-get install -y x11vnc
+      - name: Install xvfb
+        run: apt-get install -y xvfb
+      - name: Install fluxbox
+        run: apt-get install -y fluxbox
+      - name: Install wget
+        run: apt-get install -y wget
+      - name: Install wmctrl
+        run: apt-get install -y wmctrl
+      - name: Get Linux Signing Key
+        run: wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add -
+      - name: Get Stable Google Chrome Version
+        run: sh -c 'echo "deb http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+      - name: Install Google Chrome
+        run: apt-get update && apt-get -y install google-chrome-stable
+      - name: Create Chrome Path Variable
+        run: export CHROME_BIN=/usr/bin/google-chrome
+      - name: Run Tests
+        run: npm test
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: coverage/
   deploy:
     needs: [build]
     runs-on: ubuntu-latest

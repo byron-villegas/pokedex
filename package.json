@@ -29,7 +29,8 @@
     "e2e": "ng e2e",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:run:chrome": "cypress run --browser chrome"
+    "cypress:run:chrome": "cypress run --browser chrome",
+    "cypress:run:edge": "cypress run --browser edge"
   },
   "private": true,
   "dependencies": {
