@@ -87,6 +87,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:16.17.0
+      options: --user root
     steps:
       - uses: actions/checkout@v4
       - name: Apt Update And Clean
