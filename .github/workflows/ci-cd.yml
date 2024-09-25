@@ -87,8 +87,8 @@ jobs:
       image: node:16.17.0
     steps:
       - uses: actions/checkout@v4
-      - name: Change folder permissions
-        run: chmod -R 777 ${{ github.workspace }}
+      - name: Change Folder Permissions
+        run: chmod -R 777 /pokedex
       - name: Apt Update And Clean
         run: apt-get update; apt-get clean
       - name: Install Libraries For Google Chrome
