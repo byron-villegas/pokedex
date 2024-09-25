@@ -30,7 +30,8 @@ module.exports = function (config) {
       ],
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
+        { type: 'text-summary' },
+        { type: 'cobertura'}
       ],
       check: {
         global: {
@@ -41,7 +42,6 @@ module.exports = function (config) {
         }
       }
     },
-    reporters: ['progress', 'kjhtml', 'sabarivka'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
@@ -49,7 +49,7 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless', 'EdgeHeadless'],
     customLaunchers: {
       headless: {
-        base: 'ChromeHeadless',
+        base: 'EdgeHeadless',
         flags: [
           '--no-sandbox',
           '--disable-setuid-sandbox'
