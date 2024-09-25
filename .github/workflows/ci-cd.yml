@@ -97,11 +97,11 @@ jobs:
         run: npm run cypress:run
         env:
           CYPRESS_BASE_URL: https://pokedex-5999.onrender.com/pokedex/#/
-      - name: Combine Tests Result On Mochawesome Json
-        run: npx mochawesome-merge "pokedex/cypress/results/*.json" > mochawesome.json
-      - name: Generate Mochawesome Folder Report
-        run: npx marge mochawesome.json
       - uses: actions/upload-artifact@v4
         with:
-          name: mochawesome-report
-          path: mochawesome-report/
+          name: cypress-results
+          path: cypress/results/
+      - name: Combine Tests Result On Mochawesome Json
+        run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
+      - name: Generate Mochawesome Folder Report
+        run: npx marge mochawesome.json
