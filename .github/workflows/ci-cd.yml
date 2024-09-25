@@ -81,6 +81,8 @@ jobs:
       - name: Sleep By Two Minutes
         run: sleep 120
   end-to-end-test:
+    permissions:
+      contents: write
     needs: [deploy]
     runs-on: ubuntu-latest
     container:
@@ -97,11 +99,11 @@ jobs:
         run: npm run cypress:run
         env:
           CYPRESS_BASE_URL: https://pokedex-5999.onrender.com/pokedex/#/
-      - uses: actions/upload-artifact@v4
-        with:
-          name: cypress-results
-          path: cypress/results/
       - name: Combine Tests Result On Mochawesome Json
         run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
       - name: Generate Mochawesome Folder Report
         run: npx marge mochawesome.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cypress-results
+          path: cypress/results/
