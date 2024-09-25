@@ -81,13 +81,12 @@ jobs:
       - name: Sleep By Two Minutes
         run: sleep 120
   end-to-end-test:
-    permissions:
-      contents: write
     needs: [deploy]
     runs-on: ubuntu-latest
     container:
       image: node:16.17.0
       options: --user root
+    permissions: write-all
     steps:
       - uses: actions/checkout@v4
       - name: Apt Update And Clean
