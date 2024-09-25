@@ -49,7 +49,7 @@ module.exports = function (config) {
     browsers: ['ChromeHeadless', 'EdgeHeadless'],
     customLaunchers: {
       headless: {
-        base: 'EdgeHeadless',
+        base: 'ChromeHeadless',
         flags: [
           '--no-sandbox',
           '--disable-setuid-sandbox'
