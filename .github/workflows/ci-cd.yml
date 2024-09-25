@@ -85,10 +85,10 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: node:16.17.0
-      options: --user root
-    permissions: write-all
     steps:
       - uses: actions/checkout@v4
+      - name: Change folder permissions
+        run: chmod -R 777 ${{ github.workspace }}
       - name: Apt Update And Clean
         run: apt-get update; apt-get clean
       - name: Install Libraries For Google Chrome
