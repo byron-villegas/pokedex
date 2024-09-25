@@ -20,6 +20,7 @@ jobs:
           name: dist
           path: dist/
   unit-test:
+    needs: [build]
     runs-on: ubuntu-latest
     container:
       image: node:16.17.0
@@ -66,7 +67,7 @@ jobs:
           output: both
           thresholds: '80'
   deploy:
-    needs: [build]
+    needs: [build, unit-test]
     runs-on: ubuntu-latest
     env:
       RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
@@ -97,7 +98,7 @@ jobs:
         env:
           CYPRESS_BASE_URL: https://pokedex-5999.onrender.com/pokedex/#/
       - name: Combine Tests Result On Mochawesome Json
-        run: npx mochawesome-merge "cypress/results/*.json" > mochawesome.json
+        run: npx mochawesome-merge "${{ github.workspace }}/cypress/results/*.json" > mochawesome.json
       - name: Generate Mochawesome Folder Report
         run: npx marge mochawesome.json
       - uses: actions/upload-artifact@v4
