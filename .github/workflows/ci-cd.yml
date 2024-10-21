@@ -20,7 +20,7 @@ jobs:
           name: dist
           path: dist/
   unit-test:
-    needs: [build]
+    needs: [ build ]
     runs-on: ubuntu-latest
     container:
       image: node:16.17.0
@@ -67,7 +67,7 @@ jobs:
           output: both
           thresholds: '80'
   deploy:
-    needs: [build, unit-test]
+    needs: [ build, unit-test ]
     runs-on: ubuntu-latest
     env:
       RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
@@ -81,7 +81,7 @@ jobs:
       - name: Sleep By Two Minutes
         run: sleep 120
   end-to-end-test:
-    needs: [deploy]
+    needs: [ deploy ]
     runs-on: ubuntu-latest
     container:
       image: node:16.17.0
