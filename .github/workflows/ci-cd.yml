@@ -7,10 +7,11 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    container:
-      image: node:16.17.0
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
       - name: Install Node Modules
         run: npm install
       - name: Build Production
@@ -22,10 +23,11 @@ jobs:
   unit-test:
     needs: [ build ]
     runs-on: ubuntu-latest
-    container:
-      image: node:16.17.0
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
       - name: Install Node Modules
         run: npm install
       - name: Apt Update And Clean
@@ -83,10 +85,11 @@ jobs:
   end-to-end-test:
     needs: [ deploy ]
     runs-on: ubuntu-latest
-    container:
-      image: node:16.17.0
     steps:
       - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 16
       - name: Apt Update And Clean
         run: apt-get update; apt-get clean
       - name: Install Libraries For Google Chrome
