@@ -8,22 +8,24 @@
           <i [ngClass]="'fa fa-2x ms-1 cursor-pointer ' + (darkThemeActivated ? 'fa-moon-o' : 'fa-sun-o')" id="darkTheme" (click)="activateOrDesactivateDarkTheme()" aria-hidden="true" title="{{ darkThemeActivated ? 'Dark Theme Off' : 'Dark Theme On'  }}"></i>
         </div>
       </div>
-      <div class="row justify-content-end mb-3">
-        <div class="col d-flex justify-content-end align-items-center">
-          <select class="form-select col" id="ordenarPokemon" (change)="onOrderPokemon($event)" aria-label="Ordenar">
-            <option value="reset">Restablecer</option>
-            <option value="1">Ordenar Menor a Mayor</option>
-            <option value="2">Ordenar Mayor a Menor</option>
-            <option value="3">Ordenar A - Z</option>
-            <option value="4">Ordenar Z - A</option>
-            <option value="5">Ordenar por Favoritos</option>
-          </select>
-          <select class="form-select col" id="ordenarPokemonPorTipo" (change)="onOrderPokemonByType($event)" aria-label="Ordenar por Tipo">
-            <option value="reset">Restablecer</option>
-            <option *ngFor="let type of types" value="{{type.name}}">{{type.name | titlecase}}</option>
-          </select>
+        <div class="row mb-3">
+          <div class="col-sm-8 mb-1">
+            <select class="form-select" id="ordenarPokemon" (change)="onOrderPokemon($event)" aria-label="Ordenar">
+              <option value="reset">Restablecer</option>
+              <option value="1">Ordenar Menor a Mayor</option>
+              <option value="2">Ordenar Mayor a Menor</option>
+              <option value="3">Ordenar A - Z</option>
+              <option value="4">Ordenar Z - A</option>
+              <option value="5">Ordenar por Favoritos</option>
+            </select>
+          </div>
+          <div class="col">
+            <select class="form-select" id="ordenarPokemonPorTipo" (change)="onOrderPokemonByType($event)" aria-label="Ordenar por Tipo">
+              <option value="reset">Restablecer</option>
+              <option *ngFor="let type of types" value="{{type.name}}">{{type.name | titlecase}}</option>
+            </select>
+          </div>
         </div>
-      </div>
       <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 g-3" id="pokemons">
         <div class="col mb-3" id="{{ 'pokemon-'+ pokemon.name }}" *ngFor="let pokemon of pokemons">
           <div class="card shadow-sm">

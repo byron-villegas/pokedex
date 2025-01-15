@@ -19,7 +19,7 @@ export class MainComponent implements OnInit {
   pokemons: Pokemon[] = [];
   selectedPokemon: Pokemon | undefined = undefined;
   shinyActivated: boolean = false;
-  darkThemeActivated: boolean = false;
+  darkThemeActivated: boolean = true;
   searchText: string = '';
   order: string = '';
   typeOrder: string = '';
@@ -27,72 +27,67 @@ export class MainComponent implements OnInit {
   constructor(private pokemonService: PokemonService) { }
 
   ngOnInit() {
-    const loadTypesPromise = new Promise((resolve, reject) => {
-      if (this.pokemonService.getTypeOfLocalStorage()) {
-        this.types = this.pokemonService.getTypeOfLocalStorage().results;
-        resolve('OK');
-      }
-      else {
-        this.pokemonService.findTypes().subscribe(type => {
-          this.types = type.results;
-          this.pokemonService.saveTypeOnLocalStorage(type);
-          resolve('OK');
-        });
-      }
-    });
+    if (this.pokemonService.getTypeOfLocalStorage()) {
+      this.types = this.pokemonService.getTypeOfLocalStorage().results;
+    }
+    else {
+      this.pokemonService.findTypes().subscribe(type => {
+        this.types = type.results;
+        this.pokemonService.saveTypeOnLocalStorage(type);
+      });
+    }
 
-    const loadPokemonDataPromise = new Promise((resolve, reject) => {
+    const loadPokemons = new Promise<void>((resolve) => {
       if (this.pokemonService.getPokedexOfLocalStorage()) {
         const pokedex = this.pokemonService.getPokedexOfLocalStorage();
         pokedex.pokemon_entries.length = environment.pokemonAmount;
-
-        pokedex.pokemon_entries.forEach((pokemonEntry, index) => {
-          this.pokemonService.findPokemonByIdOrName(pokemonEntry.pokemon_species.name).subscribe(pokemon => {
-
+    
+        const requests = pokedex.pokemon_entries.map(pokemonEntry => 
+          this.pokemonService.findPokemonByIdOrName(pokemonEntry.pokemon_species.name).toPromise()
+        );
+    
+        Promise.all(requests).then(pokemons => {
+          pokemons.forEach(pokemon => {
             const idPokemon = pokemon.id.toString().padStart(3, '0');
-
-            pokemon.sprites.front_default_move = `assets/img/sprites/${idPokemon}_sprite_front_default_move.png`
-            pokemon.sprites.front_shiny_move = `assets/img/sprites/${idPokemon}_sprite_front_shiny_move.png`
-
-
+            pokemon.sprites.front_default_move = `assets/img/sprites/${idPokemon}_sprite_front_default_move.png`;
+            pokemon.sprites.front_shiny_move = `assets/img/sprites/${idPokemon}_sprite_front_shiny_move.png`;
+    
             this.originalPokemonList.push(pokemon);
-
-            if ((index + 1) == this.pokemonService.getPokedexOfLocalStorage().pokemon_entries.length) {
-              this.pokemons = this.originalPokemonList;
-              resolve('OK');
-              return;
-            }
+            this.pokemons.push(pokemon);
           });
+          resolve();
         });
-      }
-      else {
+      } else {
         this.pokemonService.findPokedexById(2).subscribe(pokedex => {
           pokedex.pokemon_entries.length = environment.pokemonAmount;
-
           this.pokemonService.savePokedexOnLocalStorage(pokedex);
-
-          pokedex.pokemon_entries.forEach((pokemonEntry, index) => {
-            this.pokemonService.findPokemonByIdOrName(pokemonEntry.pokemon_species.name).subscribe(pokemon => {
-
+    
+          const requests = pokedex.pokemon_entries.map(pokemonEntry => 
+            this.pokemonService.findPokemonByIdOrName(pokemonEntry.pokemon_species.name).toPromise()
+          );
+    
+          Promise.all(requests).then(pokemons => {
+            pokemons.forEach(pokemon => {
               const idPokemon = pokemon.id.toString().padStart(3, '0');
-
-              pokemon.sprites.front_default_move = `assets/img/sprites/${idPokemon}_sprite_front_default_move.png`
-              pokemon.sprites.front_shiny_move = `assets/img/sprites/${idPokemon}_sprite_front_shiny_move.png`
-
+              pokemon.sprites.front_default_move = `assets/img/sprites/${idPokemon}_sprite_front_default_move.png`;
+              pokemon.sprites.front_shiny_move = `assets/img/sprites/${idPokemon}_sprite_front_shiny_move.png`;
+    
               this.originalPokemonList.push(pokemon);
-
-              if ((index + 1) == pokedex.pokemon_entries.length) {
-                this.pokemons = this.originalPokemonList;
-                resolve('OK');
-                return;
-              }
+              this.pokemons.push(pokemon);
             });
+            resolve();
           });
         });
       }
     });
+    
+    loadPokemons.then(() => {
+      this.resetPokemonsOrder();
+    });
+  }
 
-    Promise.all([loadTypesPromise, loadPokemonDataPromise]);
+  resetPokemonsOrder(): void {
+    this.pokemons = this.originalPokemonList.sort((x, y) => x.id - y.id);
   }
 
   onSearchPokemon(event: KeyboardEvent) {
@@ -100,7 +95,7 @@ export class MainComponent implements OnInit {
     this.searchText = element.value;
 
     if (this.searchText.length == 0 && (this.typeOrder == '' || this.typeOrder == 'reset') && (this.order == '' || this.order == 'reset')) {
-      this.pokemons = this.originalPokemonList;
+      this.resetPokemonsOrder();
     }
 
     if (this.pokemons.length == this.originalPokemonList.length) {
@@ -123,7 +118,7 @@ export class MainComponent implements OnInit {
     switch (element.value) {
       case '1':
         if (this.pokemons.length == this.originalPokemonList.length) {
-          this.pokemons = this.originalPokemonList.sort((x, y) => x.id - y.id);
+          this.resetPokemonsOrder();
         }
         else {
           this.pokemons = this.pokemons.sort((x, y) => x.id - y.id);
@@ -165,7 +160,7 @@ export class MainComponent implements OnInit {
         if (this.searchText.length > 0 || this.pokemons.length != this.originalPokemonList.length) {
           break;
         }
-        this.pokemons = this.originalPokemonList;
+        this.resetPokemonsOrder();
         break;
     }
   }
@@ -179,8 +174,8 @@ export class MainComponent implements OnInit {
         this.pokemons = this.originalPokemonList.filter(pokemon => pokemon.name.includes(this.searchText));
         return;
       }
-
-      this.pokemons = this.originalPokemonList;
+      
+      this.resetPokemonsOrder();
       return;
     }
 
