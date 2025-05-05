@@ -1,13 +1,13 @@
 {
   "name": "pokedex",
   "version": "1.0.0",
-  "description": "Pokedex",
+  "description": "App to view and search for Pokémon. First generation.",
   "author": "Byron Villegas Moya",
   "license": "MIT",
   "keywords": [
     "Angular",
     "Pokedex",
-    "Pokemon"
+    "Pokémon"
   ],
   "repository": {
     "type": "git",
