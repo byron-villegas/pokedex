@@ -1,5 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { fakeAsync, getTestBed, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PokemonService } from 'src/app/core/services/pokemon.service';
@@ -261,7 +261,70 @@ describe('Testeo de Main Component', () => {
     expect(component).toBeTruthy();
   });
 
-  it('Deberia anadir a favoritos un pokemon cargando los datos con local storage', () => {
+  it('Deberia anadir a favoritos un pokemon cargando los datos con local storage', fakeAsync(() => {
+    const fixture = TestBed.createComponent(MainComponent);
+
+    const type = { count: 20, results: [] }
+
+    service.saveTypeOnLocalStorage(type);
+
+    const pokemonName = 'charmander';
+
+    const pokedex = { id: 2, name: '', names: [], region: 'kanto', pokemon_entries: [{ entry_number: 1, pokemon_species: { name: pokemonName, url: '' } }] }
+
+    service.savePokedexOnLocalStorage(pokedex);
+
+    const sprites = { back_default: '', back_female: '', back_shiny: '', back_shiny_female: '', front_default: '', front_default_move: '', front_female: '', front_shiny: '', front_shiny_move: '', front_shiny_female: '', other: { "official-artwork": { front_default: '', front_shiny: '' } } }
+    const chainZero = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [], sprites: sprites };
+    const chainOne = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [chainZero], sprites: sprites };
+    const chainTwo = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [chainOne], sprites: sprites };
+    const chain = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [chainTwo], sprites: sprites }
+    const evolution = { id: 1, chain: chain }
+    const versionGroupDetail = { level_learned_at: 1, move_learn_method: { name: 'level-up', url: '' }, version_group: { name: 'kanto', url: '' } }
+    const moves = [{ move: { name: 'firepunch', url: '1' }, type: undefined, version_group_details: [versionGroupDetail] }]
+    const stats = [{ base_stat: 50, effort: 1, stat: { name: 'special-attack', url: '' } }, { base_stat: 50, effort: 1, stat: { name: 'special-defense', url: '' } }]
+    const pokemon = { id: 1, name: pokemonName, order: 4, height: 0.30, abilities: [], is_default: true, location_area_encounters: 'kanto', moves: moves, species: { name: 'dragon', url: '' }, sprites: sprites, stats: stats, types: [], evolution: evolution, weight: 0.20 }
+
+    const pokemonSpecie = { id: 1, name: 'charmander', names: [], color: { name: '', url: '' }, gender_rate: 1, genera: [], generation: { name: '', url: '' }, habitat: { name: '', url: '' }, order: 4, has_gender_differences: true, base_happiness: 1, evolution_chain: { name: '', url: '1' }, evolves_from_species: { name: '', url: '' }, pokedex_numbers: [] }
+
+    service.savePokemonSpecieOnLocalStorage(pokemonSpecie);
+
+    const pokemonMove = { move: { name: 'firepunch', url: '' }, type: { name: 'fire', url: '' }, version_group_details: [{ level_learned_at: 1, move_learn_method: { name: 'level-up', url: '' }, version_group: { name: '', url: '' } }] }
+
+    service.savePokemonMoveOnLocalStorage(pokemonMove);
+
+    const evolutionChain = { id: 1, chain }
+
+    service.savePokemonEvolutionOnLocalStorage(evolutionChain);
+
+    const component = fixture.componentInstance;
+    component.ngOnInit();
+
+    let req;
+
+    req = httpMock.expectOne(`${environment.server.url}/${environment.server.paths.pokemon}/${pokemonName}`);
+    expect(req.request.method).toBe('GET');
+    req.flush(pokemon);
+
+    // Simula el paso del tiempo para que las operaciones asíncronas se completen
+    tick();
+    fixture.detectChanges();
+
+    const debugEl = fixture.debugElement;
+
+    input = debugEl.query(By.css('#favorite-' + pokemonName)).nativeElement;
+    expect(input).toBeTruthy(); // Verifica que el elemento exista
+
+    // Generando el evento
+    input.click();
+
+    // detectando el evento
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
+  }));
+
+  it('Deberia quitar de favoritos un pokemon cargando los datos con local storage', fakeAsync(() => {
     const fixture = TestBed.createComponent(MainComponent);
 
 
@@ -306,6 +369,9 @@ describe('Testeo de Main Component', () => {
     req = httpMock.expectOne(`${environment.server.url}/${environment.server.paths.pokemon}/${pokemonName}`);
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
+
+    // Simula el paso del tiempo para que las operaciones asíncronas se completen
+    tick();
 
     fixture.detectChanges();
 
@@ -319,10 +385,16 @@ describe('Testeo de Main Component', () => {
     // detectando el evento
     fixture.detectChanges();
 
-    expect(component).toBeTruthy();
-  });
+    // Generando el evento
+    input.click();
 
-  it('Deberia quitar de favoritos un pokemon cargando los datos con local storage', () => {
+    // detectando el evento
+    fixture.detectChanges();
+
+    expect(component).toBeTruthy();
+  }));
+
+  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con local storage', fakeAsync(() => {
     const fixture = TestBed.createComponent(MainComponent);
 
 
@@ -368,72 +440,8 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    fixture.detectChanges();
-
-    const debugEl = fixture.debugElement;
-
-    input = debugEl.query(By.css('#favorite-' + pokemonName)).nativeElement;
-
-    // Generando el evento
-    input.click();
-
-    // detectando el evento
-    fixture.detectChanges();
-
-    // Generando el evento
-    input.click();
-
-    // detectando el evento
-    fixture.detectChanges();
-
-    expect(component).toBeTruthy();
-  });
-
-  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con local storage', () => {
-    const fixture = TestBed.createComponent(MainComponent);
-
-
-    const type = { count: 20, results: [] }
-
-    service.saveTypeOnLocalStorage(type);
-
-    const pokemonName = 'charmander';
-
-    const pokedex = { id: 2, name: '', names: [], region: 'kanto', pokemon_entries: [{ entry_number: 1, pokemon_species: { name: pokemonName, url: '' } }] }
-
-    service.savePokedexOnLocalStorage(pokedex);
-
-    const sprites = { back_default: '', back_female: '', back_shiny: '', back_shiny_female: '', front_default: '', front_default_move: '', front_female: '', front_shiny: '', front_shiny_move: '', front_shiny_female: '', other: { "official-artwork": { front_default: '', front_shiny: '' } } }
-    const chainZero = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [], sprites: sprites };
-    const chainOne = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [chainZero], sprites: sprites };
-    const chainTwo = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [chainOne], sprites: sprites };
-    const chain = { species: { name: 'charmander', url: '' }, evolution_details: [], evolves_to: [chainTwo], sprites: sprites }
-    const evolution = { id: 1, chain: chain }
-    const versionGroupDetail = { level_learned_at: 1, move_learn_method: { name: 'level-up', url: '' }, version_group: { name: 'kanto', url: '' } }
-    const moves = [{ move: { name: 'firepunch', url: '1' }, type: undefined, version_group_details: [versionGroupDetail] }]
-    const stats = [{ base_stat: 50, effort: 1, stat: { name: 'special-attack', url: '' } }, { base_stat: 50, effort: 1, stat: { name: 'special-defense', url: '' } }]
-    const pokemon = { id: 1, name: pokemonName, order: 4, height: 0.30, abilities: [], is_default: true, location_area_encounters: 'kanto', moves: moves, species: { name: 'dragon', url: '' }, sprites: sprites, stats: stats, types: [], evolution: evolution, weight: 0.20 }
-
-    const pokemonSpecie = { id: 1, name: 'charmander', names: [], color: { name: '', url: '' }, gender_rate: 1, genera: [], generation: { name: '', url: '' }, habitat: { name: '', url: '' }, order: 4, has_gender_differences: true, base_happiness: 1, evolution_chain: { name: '', url: '1' }, evolves_from_species: { name: '', url: '' }, pokedex_numbers: [] }
-
-    service.savePokemonSpecieOnLocalStorage(pokemonSpecie);
-
-    const pokemonMove = { move: { name: 'firepunch', url: '' }, type: { name: 'fire', url: '' }, version_group_details: [{ level_learned_at: 1, move_learn_method: { name: 'level-up', url: '' }, version_group: { name: '', url: '' } }] }
-
-    service.savePokemonMoveOnLocalStorage(pokemonMove);
-
-    const evolutionChain = { id: 1, chain }
-
-    service.savePokemonEvolutionOnLocalStorage(evolutionChain);
-
-    const component = fixture.componentInstance;
-    component.ngOnInit();
-
-    let req;
-
-    req = httpMock.expectOne(`${environment.server.url}/${environment.server.paths.pokemon}/${pokemonName}`);
-    expect(req.request.method).toBe('GET');
-    req.flush(pokemon);
+    // Simula el paso del tiempo para que las operaciones asíncronas se completen
+    tick();
 
     const debugEl = fixture.debugElement;
 
@@ -455,9 +463,9 @@ describe('Testeo de Main Component', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
-  });
+  }));
 
-  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con local storage y posteriormente generar el pdf', () => {
+  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con local storage y posteriormente generar el pdf', fakeAsync(() => {
     const fixture = TestBed.createComponent(MainComponent);
 
     const type = { count: 20, results: [] }
@@ -502,6 +510,10 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
+    // Simula el paso del tiempo para que las operaciones asíncronas se completen
+    tick();
+    fixture.detectChanges();
+
     const debugEl = fixture.debugElement;
 
     input = debugEl.query(By.css('#pokemonSearch')).nativeElement;
@@ -530,9 +542,9 @@ describe('Testeo de Main Component', () => {
     fixture.detectChanges();
 
     expect(component).toBeTruthy();
-  });
+  }));
 
-  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con una sola evolucion sin el local storage', () => {
+  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con una sola evolucion sin el local storage', fakeAsync(() => {
     const fixture = TestBed.createComponent(MainComponent);
 
     localStorage.removeItem('type');
@@ -575,6 +587,9 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
+    // Simula el paso del tiempo para que las operaciones asíncronas se completen
+    tick();
+
     const debugEl = fixture.debugElement;
 
     input = debugEl.query(By.css('#pokemonSearch')).nativeElement;
@@ -613,9 +628,9 @@ describe('Testeo de Main Component', () => {
     req.flush(evolutionChain);
 
     expect(component).toBeTruthy();
-  });
+  }));
 
-  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con mas de dos evoluciones sin el local storage', () => {
+  it('Deberia seleccionar un pokemon buscado mediante la barra de busqueda cargando los datos con mas de dos evoluciones sin el local storage', fakeAsync(() => {
     const fixture = TestBed.createComponent(MainComponent);
 
     localStorage.removeItem('type');
@@ -658,6 +673,9 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
+    // Simula el paso del tiempo para que las operaciones asíncronas se completen
+    tick();
+
     const debugEl = fixture.debugElement;
 
     input = debugEl.query(By.css('#pokemonSearch')).nativeElement;
@@ -696,7 +714,7 @@ describe('Testeo de Main Component', () => {
     req.flush(evolutionChain);
 
     expect(component).toBeTruthy();
-  });
+  }));
 
   it('Deberia ordenar menor a mayor', () => {
     const fixture = TestBed.createComponent(MainComponent);
