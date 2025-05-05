@@ -733,7 +733,7 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[1].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -778,7 +778,7 @@ describe('Testeo de Main Component', () => {
 
     component.originalPokemonList = [];
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[1].value;
     select.dispatchEvent(new Event('change'));
 
@@ -822,7 +822,7 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[2].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -867,7 +867,7 @@ describe('Testeo de Main Component', () => {
 
     component.originalPokemonList = [];
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[2].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -910,7 +910,7 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[3].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -955,7 +955,7 @@ describe('Testeo de Main Component', () => {
 
     component.originalPokemonList = [];
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[3].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -998,7 +998,7 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[4].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1043,7 +1043,7 @@ describe('Testeo de Main Component', () => {
 
     component.originalPokemonList = [];
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[4].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1086,7 +1086,7 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[5].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1129,7 +1129,7 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[5].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1174,7 +1174,7 @@ describe('Testeo de Main Component', () => {
 
     component.originalPokemonList = [];
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
     select.value = select.options[5].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1217,7 +1217,7 @@ describe('Testeo de Main Component', () => {
     expect(req.request.method).toBe('GET');
     req.flush(pokemon);
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
 
     // Seleccionamos primero un orden
     select.value = select.options[1].value;
@@ -1269,7 +1269,7 @@ describe('Testeo de Main Component', () => {
 
     component.originalPokemonList = [];
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemon')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemon')).nativeElement;
 
     // Seleccionamos primero un orden
     select.value = select.options[1].value;
@@ -1321,7 +1321,7 @@ describe('Testeo de Main Component', () => {
 
     fixture.detectChanges();
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemonPorTipo')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemonByType')).nativeElement;
     select.value = select.options[1].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1368,7 +1368,7 @@ describe('Testeo de Main Component', () => {
 
     fixture.detectChanges();
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemonPorTipo')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemonByType')).nativeElement;
     select.value = select.options[1].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1416,7 +1416,7 @@ describe('Testeo de Main Component', () => {
 
     fixture.detectChanges();
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemonPorTipo')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemonByType')).nativeElement;
     select.value = select.options[1].value;
     select.dispatchEvent(new Event('change'));
     fixture.detectChanges();
@@ -1461,7 +1461,7 @@ describe('Testeo de Main Component', () => {
 
     fixture.detectChanges();
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemonPorTipo')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemonByType')).nativeElement;
 
     // Seleccionamos primero un tipo
     select.value = select.options[1].value;
@@ -1515,7 +1515,7 @@ describe('Testeo de Main Component', () => {
 
     fixture.detectChanges();
 
-    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#ordenarPokemonPorTipo')).nativeElement;
+    const select: HTMLSelectElement = fixture.debugElement.query(By.css('#orderPokemonByType')).nativeElement;
 
     // Seleccionamos primero un tipo
     select.value = select.options[1].value;

@@ -4,7 +4,7 @@ describe('Ordenar listado de pokemones', () => {
 
         cy.visit('/pokedex');
         cy.wait(5000);
-        cy.get('[id="ordenarPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
+        cy.get('[id="orderPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
         cy.wait(2000);
         cy.get('[id="pokemons"').children().should('have.id', 'pokemon-' + pokemonName.toLocaleLowerCase());
         cy.wait(2000);
@@ -15,7 +15,7 @@ describe('Ordenar listado de pokemones', () => {
 
         cy.visit('/pokedex');
         cy.wait(5000);
-        cy.get('[id="ordenarPokemon"]').select('Ordenar Mayor a Menor').should('have.value', '2');
+        cy.get('[id="orderPokemon"]').select('Ordenar Mayor a Menor').should('have.value', '2');
         cy.wait(2000);
         cy.get('[id="pokemons"').children().should('have.id', 'pokemon-' + pokemonName.toLocaleLowerCase());
         cy.wait(2000);
@@ -26,7 +26,7 @@ describe('Ordenar listado de pokemones', () => {
 
         cy.visit('/pokedex');
         cy.wait(5000);
-        cy.get('[id="ordenarPokemon"]').select('Ordenar A - Z').should('have.value', '3');
+        cy.get('[id="orderPokemon"]').select('Ordenar A - Z').should('have.value', '3');
         cy.wait(2000);
         cy.get('[id="pokemons"').children().should('have.id', 'pokemon-' + pokemonName.toLocaleLowerCase());
         cy.wait(2000);
@@ -37,7 +37,7 @@ describe('Ordenar listado de pokemones', () => {
 
         cy.visit('/pokedex');
         cy.wait(5000);
-        cy.get('[id="ordenarPokemon"]').select('Ordenar Z - A').should('have.value', '4');
+        cy.get('[id="orderPokemon"]').select('Ordenar Z - A').should('have.value', '4');
         cy.wait(2000);
         cy.get('[id="pokemons"').children().should('have.id', 'pokemon-' + pokemonName.toLocaleLowerCase());
         cy.wait(2000);

@@ -5,9 +5,9 @@ describe('Ordenar listado de pokemones por tipo', () => {
 
         cy.visit('/pokedex');
         cy.wait(5000);
-        cy.get('[id="ordenarPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
+        cy.get('[id="orderPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
         cy.wait(2000);
-        cy.get('[id="ordenarPokemonPorTipo"]').select(type).should('have.value', type.toLocaleLowerCase());
+        cy.get('[id="orderPokemonByType"]').select(type).should('have.value', type.toLocaleLowerCase());
         cy.wait(2000);
         cy.get('[id="pokemons"').children().should('have.id', 'pokemon-' + pokemonName.toLocaleLowerCase());
         cy.wait(2000);
@@ -19,9 +19,9 @@ describe('Ordenar listado de pokemones por tipo', () => {
 
         cy.visit('/pokedex');
         cy.wait(5000);
-        cy.get('[id="ordenarPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
+        cy.get('[id="orderPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
         cy.wait(2000);
-        cy.get('[id="ordenarPokemonPorTipo"]').select(type).should('have.value', type.toLocaleLowerCase());
+        cy.get('[id="orderPokemonByType"]').select(type).should('have.value', type.toLocaleLowerCase());
         cy.wait(2000);
         cy.get('[id="pokemons"').children().should('have.id', 'pokemon-' + pokemonName.toLocaleLowerCase());
         cy.wait(2000);
@@ -32,9 +32,9 @@ describe('Ordenar listado de pokemones por tipo', () => {
 
         cy.visit('/pokedex');
         cy.wait(5000);
-        cy.get('[id="ordenarPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
+        cy.get('[id="orderPokemon"]').select('Ordenar Menor a Mayor').should('have.value', '1');
         cy.wait(2000);
-        cy.get('[id="ordenarPokemonPorTipo"]').select(type).should('have.value', type.toLocaleLowerCase());
+        cy.get('[id="orderPokemonByType"]').select(type).should('have.value', type.toLocaleLowerCase());
         cy.wait(2000);
         cy.get('[id="pokemons"').children().should('not.exist');
         cy.wait(2000);
